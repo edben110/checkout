@@ -72,71 +72,72 @@ export default function Home() {
             </div>
             {/* vertical divider */}
             <div className="w-px h-9 bg-gray-400" />
-            <h1 className="text-xl font-light tracking-widest text-gray-700 uppercase">
+            <h1 className="text-xl font-light tracking-widest text-gray-700 ">
               Your Shopping Cart
             </h1>
           </div>
 
-          {/* ── Single items container ── */}
-          <div className="bg-[#d8d8d8] rounded-2xl overflow-hidden">
-            {cartItems.map((item, idx) => (
-              <div key={item.id}>
+          {/* ── Individual item cards ── */}
+          <div className="flex flex-col gap-3">
+            {cartItems.map((item) => (
+              <div key={item.id} className="flex items-center gap-3">
+                {/* card */}
                 <div
-                  className="grid items-center gap-4 px-5 py-4"
-                  style={{ gridTemplateColumns: "72px 1fr 64px 52px 140px 28px" }}
+                  className="grid items-center gap-4 px-5 py-4 bg-[#d8d8d8] rounded-2xl flex-1"
+                  style={{ gridTemplateColumns: "72px 1fr 64px 52px 140px" }}
                 >
-                  {/* circular thumbnail with real image */}
-                  <div
-                    className={`relative flex items-center justify-center rounded-full overflow-hidden shrink-0 ${item.bg}`}
-                    style={{ width: 68, height: 68 }}
-                  >
-                    <Image
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      className="object-cover scale-110"
-                    />
-                  </div>
+                {/* circular thumbnail with real image */}
+                <div
+                  className={`relative flex items-center justify-center rounded-full overflow-hidden shrink-0 ${item.bg}`}
+                  style={{ width: 68, height: 68 }}
+                >
+                  <Image
+                    src={item.img}
+                    alt={item.name}
+                    fill
+                    className="object-cover scale-110"
+                  />
+                </div>
 
-                  {/* name + ref */}
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-semibold text-gray-800 tracking-wide">
-                      {item.name}
-                    </span>
-                    <span className="text-xs text-gray-500 font-light">
-                      Ref. {item.ref}
-                    </span>
-                  </div>
+                {/* name + ref */}
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-sm font-semibold text-gray-800 tracking-wide">
+                    {item.name}
+                  </span>
+                  <span className="text-xs text-gray-500 font-light">
+                    Ref. {item.ref}
+                  </span>
+                </div>
 
-                  {/* color */}
-                  <span className="text-sm text-gray-600 text-center">{item.color}</span>
+                {/* color */}
+                <span className="text-sm text-gray-600 text-center">{item.color}</span>
 
-                  {/* quantity stepper */}
+                {/* quantity stepper */}
+                <div className="flex items-center justify-center gap-1.5">
+                  <span className="text-sm font-medium text-gray-800 w-3 text-center">{item.qty}</span>
                   <div className="flex flex-col items-center gap-0.5">
                     <button className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-gray-600 text-white text-[10px] leading-none hover:bg-gray-800 select-none">
                       +
                     </button>
-                    <span className="text-sm font-medium text-gray-800 leading-5">{item.qty}</span>
                     <button className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-gray-600 text-white text-[10px] leading-none hover:bg-gray-800 select-none">
                       −
                     </button>
                   </div>
-
-                  {/* price */}
-                  <span className="text-sm text-gray-700 text-right font-medium">
-                    {item.price}
-                  </span>
-
-                  {/* remove */}
-                  <button className="flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none">
-                    ×
-                  </button>
                 </div>
 
-                {idx < cartItems.length - 1 && (
-                  <div className="mx-5 h-px bg-gray-300" />
-                )}
+                {/* price */}
+                <span className="text-sm text-gray-700 text-right font-medium">
+                  {item.price}
+                </span>
+
+                {/* remove — intentionally removed from grid, placed outside */}
               </div>
+
+              {/* × outside the card */}
+              <button className="flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none shrink-0">
+                ×
+              </button>
+            </div>
             ))}
           </div>
         </div>
@@ -163,11 +164,11 @@ export default function Home() {
       ══════════════════════════════ */}
       <div className="relative w-105 shrink-0 h-full">
 
-        {/* ── Tab — independent, outside the dark panel ── */}
+        {/* ── Tab — independent, outside the dark panel, moves with it ── */}
         <button
           onClick={() => setPanelOpen(!panelOpen)}
-          className="absolute z-20 flex flex-col items-center justify-center gap-1.75 cursor-pointer hover:brightness-125 transition-all bg-[#2E2A24] rounded-tl-md rounded-bl-md"
-          style={{ left: 0, top: 100, width: 20, paddingTop: 12, paddingBottom: 12 }}
+          className="absolute z-20 flex flex-col items-center justify-center gap-1.75 cursor-pointer hover:brightness-125 bg-[#2E2A24] rounded-tl-md rounded-bl-md transition-all duration-300 ease-in-out"
+          style={{ left: panelOpen ? 0 : 400, top: 100, width: 20, paddingTop: 12, paddingBottom: 12 }}
           aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
         >
           <div className="w-1.75 h-1.75 rounded-full bg-gray-400" />
