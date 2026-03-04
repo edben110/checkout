@@ -65,8 +65,8 @@ export default function Home() {
               <Image
                 src="/logo_top_left.png"
                 alt="Logo"
-                width={40}
-                height={44}
+                width={80}
+                height={88}
                 className="object-contain"
               />
             </div>
@@ -94,7 +94,7 @@ export default function Home() {
                       src={item.img}
                       alt={item.name}
                       fill
-                      className="object-contain p-2"
+                      className="object-cover scale-110"
                     />
                   </div>
 
@@ -158,42 +158,38 @@ export default function Home() {
 
       {/* ══════════════════════════════
           RIGHT PANEL — Card Details (collapsible)
-          The 3 dots tab is always visible and
-          acts as the toggle handle.
+          Tab is outside (absolute, always visible).
+          Dark panel slides inside a clip zone offset 20px.
       ══════════════════════════════ */}
-      <div
-        className="relative flex flex-col h-full shrink-0 transition-all duration-300 ease-in-out"
-        style={{ width: panelOpen ? 420 : 32 }}
-      >
-        {/* Dark panel — no rounded corners, plain rectangle */}
-        <div className="flex flex-col h-full bg-[#2e2a24] overflow-hidden">
+      <div className="relative w-105 shrink-0 h-full">
 
-          {/* Body: tab (always) + form content (only when open) */}
-          <div className="flex flex-1 overflow-hidden">
+        {/* ── Tab — independent, outside the dark panel ── */}
+        <button
+          onClick={() => setPanelOpen(!panelOpen)}
+          className="absolute z-20 flex flex-col items-center justify-center gap-1.75 cursor-pointer hover:brightness-125 transition-all bg-[#2E2A24] rounded-tl-md rounded-bl-md"
+          style={{ left: 0, top: 100, width: 20, paddingTop: 12, paddingBottom: 12 }}
+          aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
+        >
+          <div className="w-1.75 h-1.75 rounded-full bg-gray-400" />
+          <div className="w-1.75 h-1.75 rounded-full bg-[#d4a520]" />
+          <div className="w-1.75 h-1.75 rounded-full bg-gray-400" />
+        </button>
 
-            {/* ── Dots tab — small compact pill at the top, acts as toggle ── */}
-            <div className="flex flex-col items-start shrink-0 pt-16" style={{ width: 32 }}>
-              <button
-                onClick={() => setPanelOpen(!panelOpen)}
-                className="flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-70 transition-opacity rounded-r-none rounded-l-none"
-                style={{ width: 32, paddingTop: 10, paddingBottom: 10 }}
-                aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
-              >
-                <div className="w-1.75 h-1.75 rounded-full bg-gray-500" />
-                <div className="w-1.75 h-1.75 rounded-full bg-[#d4a520]" />
-                <div className="w-1.75 h-1.75 rounded-full bg-gray-500" />
-              </button>
-            </div>
+        {/* ── Clip zone: starts at left:20px so panel never overlaps tab ── */}
+        <div className="absolute top-0 bottom-0 right-0 overflow-hidden" style={{ left: 20 }}>
 
-            {/* ── Form content — only when open ── */}
+          {/* Dark panel slides inside the clip zone */}
+          <div
+            className="absolute inset-0 flex flex-col bg-[#2e2a24] transition-transform duration-300 ease-in-out"
+            style={{ transform: panelOpen ? "translateX(0)" : "translateX(400px)" }}
+          >
+
+            {/* Form area */}
             <div
-              className="flex flex-col flex-1 overflow-hidden transition-all duration-300 ease-in-out"
-              style={{
-                opacity: panelOpen ? 1 : 0,
-                pointerEvents: panelOpen ? "auto" : "none",
-              }}
+              className="flex flex-col flex-1 overflow-hidden transition-opacity duration-300 ease-in-out"
+              style={{ opacity: panelOpen ? 1 : 0, pointerEvents: panelOpen ? "auto" : "none" }}
             >
-              <div className="flex flex-col gap-9 pt-14 pr-10 pb-8 pl-2">
+              <div className="flex flex-col gap-9 pt-14 pr-10 pb-8 pl-6">
 
                 {/* title */}
                 <h2 className="text-2xl font-semibold text-[#d4a520] tracking-wide">
@@ -295,18 +291,18 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Checkout button — only when open */}
-          <div
-            className="shrink-0 transition-all duration-300 ease-in-out overflow-hidden"
-            style={{ maxHeight: panelOpen ? 80 : 0, opacity: panelOpen ? 1 : 0 }}
-          >
-            <button className="w-full py-5 bg-[#d4a520] text-gray-900 font-semibold text-base tracking-[0.25em] uppercase hover:bg-[#c49518] transition-colors">
-              Checkout
-            </button>
-          </div>
+            {/* Checkout button */}
+            <div
+              className="shrink-0 overflow-hidden transition-all duration-300 ease-in-out"
+              style={{ maxHeight: panelOpen ? 80 : 0, opacity: panelOpen ? 1 : 0 }}
+            >
+              <button className="w-full py-5 bg-[#d4a520] text-gray-900 font-semibold text-base tracking-[0.25em] uppercase hover:bg-[#c49518] transition-colors">
+                Checkout
+              </button>
+            </div>
 
+          </div>
         </div>
       </div>
 
